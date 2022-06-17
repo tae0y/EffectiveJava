@@ -53,3 +53,9 @@
 - 생성자나 직렬화 과정에서 예외가 발생하면 생성되다만 객체에서 악의적인 하위 클래스의 finalizer가 수행될 수 있다. 그리고 finalizer를 정적필드에 참조 할당하여 가비지 컬렉터가 수집하지 못하게 만들고, 일그러진 객체를 사용해 허용되지 않은 작업도 수행할 수 있다. final이 아닌 클래스를 finalizer 공격으로부터 방어하려면 아무 일도 하지 않는 finalize 메서드를 만들어 final로 선언하자.
 - 대안
   - finalizer와 cleaner 대신 AutuCloseable을 구현해 사용하면 된다 (팁: 인스턴스별로 close여부를 확인하는 필드를 선언해두고, 해당 필드가 close인데 참조하면 예외를 던지도록 구현해두면 좋다)
+
+### 9. try-finally 보다는 try-with-resources
+- AutoCloseable을 구현한 객체는 `try(statements){}` 구문으로 자원을 회수할 수 있다
+- finally에서 close메서드를 호출하는 경우, 중첩된 구문에서 디버깅이 어려워지는 문제가 있다
+- close를 명시하지 않은 경우 finalizer가 안전망으로 호출되는데, 동작을 보장하지 않는 문제가 있다
+- 
