@@ -58,4 +58,22 @@
 - AutoCloseable을 구현한 객체는 `try(statements){}` 구문으로 자원을 회수할 수 있다
 - finally에서 close메서드를 호출하는 경우, 중첩된 구문에서 디버깅이 어려워지는 문제가 있다
 - close를 명시하지 않은 경우 finalizer가 안전망으로 호출되는데, 동작을 보장하지 않는 문제가 있다
-- 
+
+### 10. equals는 일반 규약을 지켜 재정의
+- 클래스를 확장해 구현했을때 기존 클래스와 확장한 클래스를 정확히 equals 비교할 수는 없다
+- equals 메서드 구현 방법 정리
+  - `==` 연산자 사용해 자기자신 참조인지 확인
+  - `instanceof`로 입력이 올바른 타입인지 확인
+  - 입력을 올바른 타입으로 형변환
+  - 입력 객체와 자기 자신의 대응되는 핵심필드들이 모두 일치하는지 확인
+- 단위테스트
+  - 대칭적인가? `a.equals(b) == b.equals(a)`
+  - 추이성이 있는가? `if a.equals(b) and b.equals(c) then a.equals(c) is true`
+  - 일관적인가? (두 객체가 같다면 앞으로도 계속 같아야 한다. 비교시점에 따라 달라지면 안됨.)
+- equals를 재정의할땐 hashcode도 반드시 재정의
+- `AutoValue` 라이브러리를 사용하면 자동으로 만들어준다 👍
+
+### 11. equals를 재정의하려거든 hashCode도 재정의
+- equals에서 일부 필드만을 사용해서 비교할 수도 있다, 그러나 논리적으로 같은 객체는 hashcode도 같아야하기에 equals를 재정의하면 hashcode도 재정의해줘야 한다. equals에서 포함하지 않은 필드는 반드시 제외하고 hashing 해야 한다. 그 반대는 상관없다.
+- 해시 함수 제작 요령을 참조 (라빈 핑거프린트 알고리즘)
+- 또는 구아바의 `com.google.common.hash.Hashing`도 좋다
