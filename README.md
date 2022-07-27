@@ -152,6 +152,7 @@
   - 객체가 불변성을 유지하면, 내부데이터를 가변멤버로 선언하고 지연초기화/캐싱해도 상관없다.
 - 불변 객체의 성능 문제
   - 성능 때문에 연산도중 불변 객체를 계속해서 생성하는 것이 부담된다면, 쌍을 이루는 가변 동반 클래스를 public으로 제공하자.
+  - 가변 동반 클래스 : 불변클래스에서 복잡한 연산을 수행하기 위해 사용하는 짝꿍 가변클래스(https://gist.github.com/73ddy/5374190)
   - https://github.com/JunHyeok96/effective-java/issues/15
   - https://github.com/Java-Bom/ReadingRecord/issues/47
 - 클래스가 최대한 불변성을 가지도록 선언하자는 것이다.
